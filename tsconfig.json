@@ -1,9 +1,4 @@
 {
   "files": [],
-  "references": [
-    { "path": "./packages/core" },
-    { "path": "./packages/table" },
-    { "path": "./apps/playground" },
-    { "path": "./apps/docs" }
-  ]
+  "include": []
 }

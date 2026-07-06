@@ -1,13 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "composite": true,
     "noEmit": true,
-    "moduleResolution": "Bundler"
+    "baseUrl": ".",
+    "paths": {
+      "@draggable-table/core": ["../../packages/core/src/index.ts"],
+      "@draggable-table/table": ["../../packages/table/src/index.tsx"]
+    }
   },
-  "include": ["src/**/*"],
-  "references": [
-    { "path": "../../packages/core" },
-    { "path": "../../packages/table" }
-  ]
+  "include": ["src/**/*"]
 }
