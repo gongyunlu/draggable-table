@@ -4,8 +4,12 @@
   "description": "Default CSS theme for @draggable-table.",
   "sideEffects": ["**/*.css"],
   "main": "./src/index.css",
+  "types": "./src/index.d.ts",
   "exports": {
-    ".": "./src/index.css",
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.css"
+    },
     "./index.css": "./src/index.css"
   },
   "files": ["src", "README.md"],
