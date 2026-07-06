@@ -64,6 +64,7 @@ README.md                               根 README
 ## Task 1: 每个包写 README
 
 **Files:**
+
 - Create: `packages/core/README.md`
 - Create: `packages/table/README.md`
 - Create: `packages/theme/README.md`
@@ -71,7 +72,7 @@ README.md                               根 README
 
 - [ ] **Step 1: 根 README**
 
-```markdown
+````markdown
 # @draggable-table
 
 **A high-performance draggable tree table for React 19+.**
@@ -87,6 +88,7 @@ README.md                               根 README
 ```bash
 pnpm add @draggable-table/table @draggable-table/theme
 ```
+````
 
 ## Quick start
 
@@ -94,7 +96,7 @@ pnpm add @draggable-table/table @draggable-table/theme
 import { Table } from '@draggable-table/table'
 import '@draggable-table/theme'
 
-<Table
+;<Table
   data={rows}
   rowKey="id"
   columns={[
@@ -115,7 +117,8 @@ Full docs: https://draggable-table.example.com
 ## License
 
 MIT
-```
+
+````
 
 - [ ] **Step 2: packages/core/README.md**
 
@@ -135,11 +138,11 @@ Pure TypeScript engine for `@draggable-table`. Zero runtime dependencies.
 - `toCsv` — CSV export
 
 See [../table](../table) for the React component built on top.
-```
+````
 
 - [ ] **Step 3: packages/table/README.md**
 
-```markdown
+````markdown
 # @draggable-table/table
 
 React 19+ draggable tree table.
@@ -154,6 +157,7 @@ React 19+ draggable tree table.
 ```bash
 pnpm add @draggable-table/table @draggable-table/theme
 ```
+````
 
 ## Basic
 
@@ -161,13 +165,7 @@ pnpm add @draggable-table/table @draggable-table/theme
 import { Table } from '@draggable-table/table'
 import '@draggable-table/theme'
 
-<Table
-  data={rows}
-  rowKey="id"
-  columns={[
-    { key: 'name', title: 'Name', field: 'name' },
-  ]}
-/>
+;<Table data={rows} rowKey="id" columns={[{ key: 'name', title: 'Name', field: 'name' }]} />
 ```
 
 ## Headless
@@ -178,7 +176,8 @@ import { useTable } from '@draggable-table/table'
 const { visibleRows, columns, state, actions } = useTable({ data, rowKey, columns })
 // render your own UI
 ```
-```
+
+````
 
 - [ ] **Step 4: packages/theme/README.md**
 
@@ -191,7 +190,7 @@ Default CSS for `@draggable-table`.
 
 ```ts
 import '@draggable-table/theme'
-```
+````
 
 ## Customize via CSS variables
 
@@ -205,20 +204,22 @@ import '@draggable-table/theme'
 ```
 
 See `src/vars.css` for the full list.
-```
+
+````
 
 - [ ] **Step 5: 提交**
 
 ```bash
 git add README.md packages/core/README.md packages/table/README.md packages/theme/README.md
 git commit -m "docs: add package READMEs"
-```
+````
 
 ---
 
 ## Task 2: 文档 guide 页面
 
 **Files:**
+
 - Modify: `apps/docs/guide/intro.md`
 - Create: `apps/docs/guide/quick-start.md`
 - Create: `apps/docs/guide/tree-mode.md`
@@ -252,7 +253,7 @@ git commit -m "docs: add package READMEs"
 
 - [ ] **Step 2: quick-start.md**
 
-```markdown
+````markdown
 # Quick start
 
 ## Install
@@ -261,6 +262,7 @@ git commit -m "docs: add package READMEs"
 pnpm add @draggable-table/table @draggable-table/theme
 # react 19+ is a peerDep
 ```
+````
 
 ## Minimal example
 
@@ -292,7 +294,7 @@ export function MyTable() {
 
 - [ ] **Step 3: tree-mode.md**
 
-```markdown
+````markdown
 # Tree mode
 
 `@draggable-table` supports two shapes of tree data.
@@ -307,6 +309,7 @@ export function MyTable() {
   columns={[...]}
 />
 ```
+````
 
 ## Flat (`parentId`)
 
@@ -333,9 +336,7 @@ export function MyTable() {
 ## Lazy loading
 
 ```tsx
-<Table
-  loadChildren={async (row) => await fetchChildren(row.id)}
-/>
+<Table loadChildren={async (row) => await fetchChildren(row.id)} />
 ```
 
 <DemoEmbed src="/playground/#02-tree" />
@@ -343,7 +344,7 @@ export function MyTable() {
 
 - [ ] **Step 4: drag-drop.md**
 
-```markdown
+````markdown
 # Drag & drop
 
 ## Row drag
@@ -351,13 +352,14 @@ export function MyTable() {
 ```tsx
 import { applyDrop } from '@draggable-table/core'
 
-<Table
+;<Table
   draggable={{ rows: true }}
   onDragEnd={(ctx) => {
     setData(applyDrop(data, ctx, { rowKey: 'id', tree }))
   }}
 />
 ```
+````
 
 ## Drop positions
 
@@ -390,7 +392,7 @@ Return `false` to cancel.
 
 - [ ] **Step 5: virtual-scroll.md**
 
-```markdown
+````markdown
 # Virtual scrolling
 
 ```tsx
@@ -402,6 +404,7 @@ Return `false` to cancel.
   columns={[...]}
 />
 ```
+````
 
 ## Variable row height (declarative)
 
@@ -432,7 +435,7 @@ Return `false` to cancel.
 
 - [ ] **Step 6: server-mode.md**
 
-```markdown
+````markdown
 # Server mode
 
 ```tsx
@@ -440,15 +443,19 @@ Return `false` to cancel.
   mode="server"
   totalCount={total}
   onRequest={async (params) => {
-    const res = await fetch('/api/rows?' + new URLSearchParams({
-      page: params.page,
-      pageSize: params.pageSize,
-      sort: JSON.stringify(params.sort),
-    }))
-    return await res.json()  // { rows, total }
+    const res = await fetch(
+      '/api/rows?' +
+        new URLSearchParams({
+          page: params.page,
+          pageSize: params.pageSize,
+          sort: JSON.stringify(params.sort),
+        }),
+    )
+    return await res.json() // { rows, total }
   }}
 />
 ```
+````
 
 Sort/filter are not applied locally — they're passed to `onRequest`.
 Concurrent requests: only the latest response wins.
@@ -458,7 +465,7 @@ Concurrent requests: only the latest response wins.
 
 - [ ] **Step 7: custom-cell.md**
 
-```markdown
+````markdown
 # Custom cell renderer
 
 ```tsx
@@ -469,14 +476,13 @@ Concurrent requests: only the latest response wins.
       title: 'Status',
       field: 'status',
       render: (row, ctx) => (
-        <span className={row.status === 'active' ? 'badge-green' : 'badge-red'}>
-          {row.status}
-        </span>
+        <span className={row.status === 'active' ? 'badge-green' : 'badge-red'}>{row.status}</span>
       ),
     },
   ]}
 />
 ```
+````
 
 `ctx` includes: `rowIndex`, `rowKey`, `depth`, `isExpanded`, `isSelected`.
 
@@ -485,7 +491,7 @@ Concurrent requests: only the latest response wins.
 
 - [ ] **Step 8: headless.md**
 
-```markdown
+````markdown
 # Headless mode
 
 Use `useTable()` when you want full control over the UI:
@@ -507,6 +513,7 @@ return (
   </div>
 )
 ```
+````
 
 `useTable` returns `{ visibleRows, columns, state, actions, virtualizer, dnd }`.
 
@@ -515,7 +522,7 @@ return (
 
 - [ ] **Step 9: theming.md**
 
-```markdown
+````markdown
 # Theming
 
 The library ships CSS variables you can override:
@@ -528,6 +535,7 @@ The library ships CSS variables you can override:
   --dt-drop-inside-bg: rgba(248, 113, 113, 0.14);
 }
 ```
+````
 
 See [full list](https://github.com/gongyunlu/draggable-table/blob/main/packages/theme/src/vars.css).
 
@@ -540,20 +548,22 @@ See [full list](https://github.com/gongyunlu/draggable-table/blob/main/packages/
 ## Rewriting styles entirely
 
 Skip `@draggable-table/theme` — write your own CSS targeting `.dt-*` classes.
-```
+
+````
 
 - [ ] **Step 10: 提交**
 
 ```bash
 git add apps/docs/guide
 git commit -m "docs: guide pages"
-```
+````
 
 ---
 
 ## Task 3: 文档 API 页面
 
 **Files:**
+
 - Create: `apps/docs/api/table.md`
 - Create: `apps/docs/api/use-table.md`
 - Create: `apps/docs/api/column-def.md`
@@ -568,50 +578,50 @@ git commit -m "docs: guide pages"
 
 ## Props
 
-| Prop | Type | Default |
-|---|---|---|
-| `data` | `T[]` | required |
-| `rowKey` | `keyof T \| (row) => RowKey` | required |
-| `tree` | `TreeConfig \| undefined` | `undefined` (flat list) |
-| `columns` | `ColumnDef<T>[]` | required |
-| `expandedKeys` | `RowKey[]` | uncontrolled |
-| `defaultExpandedKeys` | `RowKey[]` | `[]` |
-| `defaultExpandedDepth` | `number \| 'all'` | `0` |
-| `onExpand` | `(keys) => void` | |
-| `loadChildren` | `(row) => Promise<T[]>` | |
-| `selection` | `{ mode, checkbox?, cascadeParent?, keepAcrossPages? }` | |
-| `selectedKeys` | `RowKey[]` | uncontrolled |
-| `defaultSelectedKeys` | `RowKey[]` | `[]` |
-| `onSelectionChange` | `(keys) => void` | |
-| `draggable` | `{ rows?, columns?, allowInsideLeaf? }` | |
-| `allowDrop` | `(ctx) => boolean` | |
-| `beforeDrop` | `(ctx) => Promise<boolean>` | |
-| `onDragEnd` | `(ctx) => void` | |
-| `sort` | `SortState[]` | uncontrolled |
-| `defaultSort` | `SortState[]` | `[]` |
-| `onSortChange` | `(state) => void` | |
-| `filter` | `FilterState` | uncontrolled |
-| `defaultFilter` | `FilterState` | `{}` |
-| `onFilterChange` | `(state) => void` | |
-| `mode` | `'client' \| 'server'` | `'client'` |
-| `totalCount` | `number` | required in server mode |
-| `onRequest` | `(params) => Promise<{rows, total}>` | |
-| `expandableRow` | `{ render, expandedRowKeys?, defaultExpandedRowKeys? }` | |
-| `virtual` | `boolean \| { rowHeight, overscan }` | `false` |
-| `height` | `number` | `400` |
-| `infiniteScroll` | `{ hasMore, onLoadMore, threshold? }` | |
-| `density` | `'compact' \| 'normal' \| 'loose'` | `'normal'` |
-| `bordered` | `'none' \| 'horizontal' \| 'grid'` | `'horizontal'` |
-| `striped` | `boolean` | `false` |
-| `loading` | `boolean` | `false` |
-| `empty` | `ReactNode` | `'No data'` |
-| `errorState` | `ReactNode` | |
-| `ref` | `Ref<TableHandle<T>>` | |
+| Prop                   | Type                                                    | Default                 |
+| ---------------------- | ------------------------------------------------------- | ----------------------- |
+| `data`                 | `T[]`                                                   | required                |
+| `rowKey`               | `keyof T \| (row) => RowKey`                            | required                |
+| `tree`                 | `TreeConfig \| undefined`                               | `undefined` (flat list) |
+| `columns`              | `ColumnDef<T>[]`                                        | required                |
+| `expandedKeys`         | `RowKey[]`                                              | uncontrolled            |
+| `defaultExpandedKeys`  | `RowKey[]`                                              | `[]`                    |
+| `defaultExpandedDepth` | `number \| 'all'`                                       | `0`                     |
+| `onExpand`             | `(keys) => void`                                        |                         |
+| `loadChildren`         | `(row) => Promise<T[]>`                                 |                         |
+| `selection`            | `{ mode, checkbox?, cascadeParent?, keepAcrossPages? }` |                         |
+| `selectedKeys`         | `RowKey[]`                                              | uncontrolled            |
+| `defaultSelectedKeys`  | `RowKey[]`                                              | `[]`                    |
+| `onSelectionChange`    | `(keys) => void`                                        |                         |
+| `draggable`            | `{ rows?, columns?, allowInsideLeaf? }`                 |                         |
+| `allowDrop`            | `(ctx) => boolean`                                      |                         |
+| `beforeDrop`           | `(ctx) => Promise<boolean>`                             |                         |
+| `onDragEnd`            | `(ctx) => void`                                         |                         |
+| `sort`                 | `SortState[]`                                           | uncontrolled            |
+| `defaultSort`          | `SortState[]`                                           | `[]`                    |
+| `onSortChange`         | `(state) => void`                                       |                         |
+| `filter`               | `FilterState`                                           | uncontrolled            |
+| `defaultFilter`        | `FilterState`                                           | `{}`                    |
+| `onFilterChange`       | `(state) => void`                                       |                         |
+| `mode`                 | `'client' \| 'server'`                                  | `'client'`              |
+| `totalCount`           | `number`                                                | required in server mode |
+| `onRequest`            | `(params) => Promise<{rows, total}>`                    |                         |
+| `expandableRow`        | `{ render, expandedRowKeys?, defaultExpandedRowKeys? }` |                         |
+| `virtual`              | `boolean \| { rowHeight, overscan }`                    | `false`                 |
+| `height`               | `number`                                                | `400`                   |
+| `infiniteScroll`       | `{ hasMore, onLoadMore, threshold? }`                   |                         |
+| `density`              | `'compact' \| 'normal' \| 'loose'`                      | `'normal'`              |
+| `bordered`             | `'none' \| 'horizontal' \| 'grid'`                      | `'horizontal'`          |
+| `striped`              | `boolean`                                               | `false`                 |
+| `loading`              | `boolean`                                               | `false`                 |
+| `empty`                | `ReactNode`                                             | `'No data'`             |
+| `errorState`           | `ReactNode`                                             |                         |
+| `ref`                  | `Ref<TableHandle<T>>`                                   |                         |
 ```
 
 - [ ] **Step 2: use-table.md**
 
-```markdown
+````markdown
 # `useTable(options)`
 
 Same options as `<Table>` props.
@@ -639,7 +649,9 @@ Same options as `<Table>` props.
   }
 }
 ```
-```
+````
+
+````
 
 - [ ] **Step 3: column-def.md, data-source.md, drop-ctx.md, table-handle.md**
 
@@ -652,13 +664,14 @@ Same options as `<Table>` props.
 ```bash
 git add apps/docs/api
 git commit -m "docs: API reference pages"
-```
+````
 
 ---
 
 ## Task 4: 文档 examples 页面（iframe embed）
 
 **Files:**
+
 - Create: `apps/docs/.vitepress/theme/DemoEmbed.vue`
 - Create: `apps/docs/.vitepress/theme/index.ts`
 - Create: `apps/docs/examples/*.md`
@@ -673,7 +686,12 @@ defineProps<{ src: string; height?: number }>()
 <template>
   <iframe
     :src="src"
-    :style="{ width: '100%', height: (height ?? 500) + 'px', border: '1px solid #e5e7eb', borderRadius: '8px' }"
+    :style="{
+      width: '100%',
+      height: (height ?? 500) + 'px',
+      border: '1px solid #e5e7eb',
+      borderRadius: '8px',
+    }"
     loading="lazy"
     referrerpolicy="no-referrer"
   />
@@ -705,7 +723,7 @@ export default {
 "vue": "^3.5.0"
 ```
 
-- [ ] **Step 4: 每个 examples/*.md 一行**
+- [ ] **Step 4: 每个 examples/\*.md 一行**
 
 例如 `examples/basic.md`:
 
@@ -776,6 +794,7 @@ git commit -m "docs: examples pages and iframe embed helper"
 ## Task 5: 性能基线 CI
 
 **Files:**
+
 - Create: `.github/perf-baseline.json`
 - Modify: `.github/workflows/ci.yml`
 - Create: `tests/perf/bench.ts`
@@ -793,7 +812,10 @@ import { computeVisibleRows } from '../src/state/computeVisibleRows.js'
 import { computeVisibleRange } from '../src/virtualizer/computeRange.js'
 import { computeDropTarget } from '../src/dnd/hitTest.js'
 
-interface Row { id: number; parentId: number | null }
+interface Row {
+  id: number
+  parentId: number | null
+}
 
 // 100k flat rows
 const data100k: Row[] = Array.from({ length: 100_000 }, (_, i) => ({ id: i, parentId: null }))
@@ -926,6 +948,7 @@ git commit -m "ci: add e2e and perf baseline steps"
 ## Task 6: Release workflow (Changesets)
 
 **Files:**
+
 - Create: `.github/workflows/release.yml`
 
 - [ ] **Step 1: workflow**
@@ -988,6 +1011,7 @@ git commit -m "ci: add changesets release workflow"
 ## Task 7: 类型 review + JSDoc
 
 **Files:**
+
 - Modify: `packages/core/src/**/*.ts` (加 JSDoc 到公共 API)
 - Modify: `packages/table/src/**/*.ts` (同上)
 
@@ -1033,6 +1057,7 @@ git commit -m "docs: JSDoc on public API + type review"
 ## Task 8: 首次 npm publish
 
 **Files:**
+
 - Modify: `packages/core/package.json` (version 0.1.0)
 - Modify: `packages/table/package.json` (version 0.1.0)
 - Modify: `packages/theme/package.json` (version 0.1.0)
@@ -1044,9 +1069,9 @@ git commit -m "docs: JSDoc on public API + type review"
 
 ```markdown
 ---
-"@draggable-table/core": minor
-"@draggable-table/table": minor
-"@draggable-table/theme": minor
+'@draggable-table/core': minor
+'@draggable-table/table': minor
+'@draggable-table/theme': minor
 ---
 
 Initial v0.1.0 release. Tree data + row/column drag & drop (before/after/inside) + virtual scrolling (100k rows) + client/server mode + selection + custom renderer + CSS variables theme.
@@ -1135,13 +1160,14 @@ pnpm add react react-dom @draggable-table/table @draggable-table/theme
 
 Run: `pnpm --filter @draggable-table-app/docs preview`
 浏览器打开显示的 URL：
+
 - 首页 hero
 - Guide 各页链接可跳转
 - Examples 页面 iframe 加载（在 preview 里，src 可能显示 dev URL；生产要 base 到实际 playground 部署地址）
 
 - [ ] **Step 3: 类型定义无 any**
 
-Run: `grep -rn ': any' packages/*/dist/*.d.ts` 
+Run: `grep -rn ': any' packages/*/dist/*.d.ts`
 Expected: 无 output（`unknown` 允许）。
 
 ---
@@ -1157,6 +1183,7 @@ Expected: 无 output（`unknown` 允许）。
 ## Self-Review Notes
 
 **Coverage vs spec §19 M7**:
+
 - Docs 全部页面（guide × 9 + api × 6 + examples × 9）✓ Task 2/3/4
 - 性能基线 CI 步骤 ✓ Task 5
 - 类型 review（导出的 API 类型都有 JSDoc）✓ Task 7
@@ -1164,6 +1191,7 @@ Expected: 无 output（`unknown` 允许）。
 - 第一次 npm publish ✓ Task 8
 
 **Cross-cutting reminders applied**:
+
 - ESM + CJS 双输出（tsdown 已配，dry-run 验证内容）
 - d.ts bundle 随包（tsdown dts: true）
 - `sideEffects: ["**/*.css"]` for theme（M0 已配）
@@ -1171,6 +1199,7 @@ Expected: 无 output（`unknown` 允许）。
 - peerDep `react >= 19.0.0`（M0 已配）
 
 **Deferred to v0.2 及后续**:
+
 - Excel 导出独立子包
 - devtools 独立子包
 - 测量式动态行高

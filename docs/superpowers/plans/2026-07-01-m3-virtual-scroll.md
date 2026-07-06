@@ -38,6 +38,7 @@ apps/playground/src/examples/
 ## Task 1: SSR 兼容工具
 
 **Files:**
+
 - Create: `packages/table/src/utils/ssr.ts`
 
 - [ ] **Step 1: 实现**
@@ -45,8 +46,7 @@ apps/playground/src/examples/
 ```ts
 import { useEffect, useLayoutEffect } from 'react'
 
-export const useIsomorphicLayoutEffect =
-  typeof window !== 'undefined' ? useLayoutEffect : useEffect
+export const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 export const isBrowser = typeof window !== 'undefined'
 ```
@@ -63,6 +63,7 @@ git commit -m "chore(table): add SSR-safe layout effect"
 ## Task 2: useVirtualizer hook
 
 **Files:**
+
 - Create: `packages/table/src/hooks/useVirtualizer.ts`
 - Create: `packages/table/tests/hooks/useVirtualizer.test.tsx`
 
@@ -213,6 +214,7 @@ git commit -m "feat(table): useVirtualizer hook wrapping core computeVisibleRang
 ## Task 3: VirtualBody 组件
 
 **Files:**
+
 - Create: `packages/table/src/components/Body/VirtualBody.tsx`
 
 - [ ] **Step 1: 实现**
@@ -310,6 +312,7 @@ git commit -m "feat(table): VirtualBody with translate3d row positioning"
 ## Task 4: 更新 FixedLeftPane / FixedRightPane 支持虚拟化
 
 **Files:**
+
 - Modify: `packages/table/src/components/FixedPane/FixedLeftPane.tsx`
 - Modify: `packages/table/src/components/FixedPane/FixedRightPane.tsx`
 
@@ -385,7 +388,13 @@ export function FixedLeftPane<T>({
       }}
       aria-hidden="false"
     >
-      <div style={{ height: totalHeight, position: 'relative', transform: `translate3d(0, ${-scrollTop}px, 0)` }}>
+      <div
+        style={{
+          height: totalHeight,
+          position: 'relative',
+          transform: `translate3d(0, ${-scrollTop}px, 0)`,
+        }}
+      >
         {visible.map((row, i) => {
           const absoluteIndex = startIndex + i
           return (
@@ -474,7 +483,13 @@ export function FixedRightPane<T>(props: FixedRightPaneProps<T>) {
         overflow: 'hidden',
       }}
     >
-      <div style={{ height: props.totalHeight, position: 'relative', transform: `translate3d(0, ${-props.scrollTop}px, 0)` }}>
+      <div
+        style={{
+          height: props.totalHeight,
+          position: 'relative',
+          transform: `translate3d(0, ${-props.scrollTop}px, 0)`,
+        }}
+      >
         {visible.map((row, i) => {
           const absoluteIndex = props.startIndex + i
           return (
@@ -517,6 +532,7 @@ git commit -m "feat(table): fixed panes support virtual scrolling"
 ## Task 5: Table 集成 virtual
 
 **Files:**
+
 - Modify: `packages/table/src/Table.tsx`
 
 - [ ] **Step 1: 更新 Table 组件加入 virtual 支持**
@@ -598,7 +614,10 @@ export function Table<T>(props: TableProps<T>) {
   const virt = useVirtualizer({
     count: virtualized ? visibleRows.length : 0,
     viewportHeight: viewportHeight - headerHeight,
-    rowHeight: typeof rowHeight === 'function' ? (i) => (rowHeight as (arg: { index: number }) => number)({ index: i }) : rowHeight,
+    rowHeight:
+      typeof rowHeight === 'function'
+        ? (i) => (rowHeight as (arg: { index: number }) => number)({ index: i })
+        : rowHeight,
     overscan,
   })
 
@@ -689,6 +708,7 @@ git commit -m "feat(table): integrate virtualization into <Table>"
 ## Task 6: Playground demo 05-virtual-100k
 
 **Files:**
+
 - Create: `apps/playground/src/examples/05-virtual-100k.tsx`
 - Modify: `apps/playground/src/App.tsx`
 - Create: `apps/playground/src/data/mock.ts`
@@ -795,6 +815,7 @@ const examples = [
 - [ ] **Step 4: 手工验证**
 
 Run: `pnpm dev`
+
 - 打开 05-virtual-100k demo
 - 切到 100,000 行
 - 滚动应该流畅（Chrome DevTools Performance 面板检查 fps ≥55）
@@ -823,10 +844,12 @@ pnpm build
 - [ ] **Step 2: 性能验证（Chrome DevTools）**
 
 打开 http://localhost:5173 → 05-virtual-100k
+
 - Performance 面板 record 5 秒滚动 → fps ≥ 55
 - React Profiler measure 初次渲染 → < 100ms
 
 若不达标：
+
 - 检查 rowHeights useMemo 依赖是否稳定（`rowHeight` 若是函数，业务方需 useCallback）
 - 检查 visibleRows 是否被无谓重算（用 React DevTools 观察 useTable 内 useMemo）
 
@@ -844,6 +867,7 @@ pnpm build
 ## Self-Review Notes
 
 **Coverage vs spec §12 + §19 M3**:
+
 - useVirtualizer 集成 core/computeVirtualRange ✓ Task 2
 - DOM 层：viewport + spacer + absolute + translate3d ✓ Task 3
 - overscan（默认 5）✓ Task 2/5
@@ -851,10 +875,12 @@ pnpm build
 - 固定列 pane 与主 viewport 滚动同步 ✓ Task 4（通过 scrollTop 传参而非 sticky）
 
 **Cross-cutting reminders applied**:
+
 - translate3d 而非 top ✓ Task 3/4
 - overscan 默认 5 ✓
 - 不在虚拟行内嵌 sticky（固定列是独立 pane，通过 scrollTop 派生位置）✓
 
 **Deferred**:
+
 - 拖拽 × 虚拟滚动兼容 → M5
 - 测量式动态行高 → v2

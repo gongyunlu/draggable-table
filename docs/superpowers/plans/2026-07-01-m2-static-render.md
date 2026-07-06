@@ -67,6 +67,7 @@ packages/theme/src/
 ## Task 1: Vitest + jsdom + RTL 环境
 
 **Files:**
+
 - Modify: `packages/table/package.json`
 - Create: `packages/table/vitest.config.ts`
 - Create: `packages/table/tests/setup.ts`
@@ -138,6 +139,7 @@ git commit -m "chore(table): add vitest + jsdom + RTL"
 ## Task 2: useControllable
 
 **Files:**
+
 - Create: `packages/table/src/hooks/useControllable.ts`
 - Create: `packages/table/tests/hooks/useControllable.test.tsx`
 
@@ -242,6 +244,7 @@ git commit -m "feat(table): useControllable hook for controlled/uncontrolled sta
 ## Task 3: useTable（M2 版：仅数据 + 展开）
 
 **Files:**
+
 - Create: `packages/table/src/hooks/useTable.ts`
 - Create: `packages/table/src/context/TableContext.ts`
 - Create: `packages/table/tests/hooks/useTable.test.tsx`
@@ -420,10 +423,7 @@ export function useTable<T>(options: UseTableOptions<T>) {
     [columns, totalWidth],
   )
 
-  const visibleRows = useMemo(
-    () => computeVisibleRows(model, expanded, [], {}),
-    [model, expanded],
-  )
+  const visibleRows = useMemo(() => computeVisibleRows(model, expanded, [], {}), [model, expanded])
 
   const toggleExpand = (key: RowKey): void => {
     const next = toggleExpandSet(expanded, key)
@@ -457,6 +457,7 @@ git commit -m "feat(table): useTable hook with data model + expand"
 ## Task 4: 基础组件 — ExpandIcon + Cell + Row
 
 **Files:**
+
 - Create: `packages/table/src/components/icons/ChevronRight.tsx`
 - Create: `packages/table/src/components/Body/ExpandIcon.tsx`
 - Create: `packages/table/src/components/Body/Cell.tsx`
@@ -538,10 +539,15 @@ export interface CellProps<T> {
 }
 
 export function Cell<T>({ row, column, rowIndex, isExpanded, children }: CellProps<T>) {
-  const value =
-    column.field !== undefined ? row.raw[column.field] : undefined
+  const value = column.field !== undefined ? row.raw[column.field] : undefined
   const rendered = column.render
-    ? column.render(row.raw, { rowIndex, rowKey: row.key, depth: row.depth, isExpanded, isSelected: false })
+    ? column.render(row.raw, {
+        rowIndex,
+        rowKey: row.key,
+        depth: row.depth,
+        isExpanded,
+        isSelected: false,
+      })
     : (value as ReactNode)
 
   return (
@@ -579,13 +585,7 @@ export interface RowProps<T> {
 
 const INDENT_PX = 20
 
-export function Row<T>({
-  row,
-  columns,
-  rowIndex,
-  expanded,
-  onToggleExpand,
-}: RowProps<T>) {
+export function Row<T>({ row, columns, rowIndex, expanded, onToggleExpand }: RowProps<T>) {
   return (
     <div
       className="dt-row"
@@ -631,6 +631,7 @@ git commit -m "feat(table): row/cell/expand icon components"
 ## Task 5: Header + HeaderCell + HeaderGroup (多级表头)
 
 **Files:**
+
 - Create: `packages/table/src/components/Header/Header.tsx`
 - Create: `packages/table/src/components/Header/HeaderCell.tsx`
 - Create: `packages/table/src/components/Header/HeaderGroup.tsx`
@@ -814,6 +815,7 @@ git commit -m "feat(table): header components with multi-level support"
 ## Task 6: FixedPane
 
 **Files:**
+
 - Create: `packages/table/src/components/FixedPane/FixedLeftPane.tsx`
 - Create: `packages/table/src/components/FixedPane/FixedRightPane.tsx`
 - Create: `packages/table/tests/components/FixedPane.test.tsx`
@@ -880,7 +882,12 @@ export interface FixedLeftPaneProps<T> {
   onToggleExpand: (key: RowKey) => void
 }
 
-export function FixedLeftPane<T>({ rows, columns, expanded, onToggleExpand }: FixedLeftPaneProps<T>) {
+export function FixedLeftPane<T>({
+  rows,
+  columns,
+  expanded,
+  onToggleExpand,
+}: FixedLeftPaneProps<T>) {
   if (columns.length === 0) return null
   const width = columns.reduce((sum, c) => sum + c.computedWidth, 0)
   return (
@@ -915,7 +922,12 @@ export interface FixedRightPaneProps<T> {
   onToggleExpand: (key: RowKey) => void
 }
 
-export function FixedRightPane<T>({ rows, columns, expanded, onToggleExpand }: FixedRightPaneProps<T>) {
+export function FixedRightPane<T>({
+  rows,
+  columns,
+  expanded,
+  onToggleExpand,
+}: FixedRightPaneProps<T>) {
   if (columns.length === 0) return null
   const width = columns.reduce((sum, c) => sum + c.computedWidth, 0)
   return (
@@ -947,6 +959,7 @@ git commit -m "feat(table): left and right fixed sticky panes"
 ## Task 7: Body
 
 **Files:**
+
 - Create: `packages/table/src/components/Body/Body.tsx`
 
 - [ ] **Step 1: Body**
@@ -994,6 +1007,7 @@ git commit -m "feat(table): Body component rendering visible rows"
 ## Task 8: Table 主组件
 
 **Files:**
+
 - Create: `packages/table/src/Table.tsx`
 - Modify: `packages/table/src/index.tsx`
 - Create: `packages/table/tests/Table.test.tsx`
@@ -1186,6 +1200,7 @@ git commit -m "feat(table): <Table> main component with tree expand"
 ## Task 9: 默认 CSS（theme 包）
 
 **Files:**
+
 - Create: `packages/theme/src/vars.css`
 - Create: `packages/theme/src/base.css`
 - Create: `packages/theme/src/table.css`
@@ -1385,6 +1400,7 @@ git commit -m "feat(theme): base css variables and layout styles"
 ## Task 10: Playground demo — 01/02/06/07
 
 **Files:**
+
 - Create: `apps/playground/src/examples/01-basic.tsx`
 - Create: `apps/playground/src/examples/02-tree.tsx`
 - Create: `apps/playground/src/examples/06-fixed-columns.tsx`
@@ -1644,6 +1660,7 @@ export function MultiHeader() {
 Run: `pnpm dev`
 访问 http://localhost:5173
 Expected:
+
 - 01 Basic：显示 3 行简单表格
 - 02 Tree：显示树形，展开箭头能点，能收/展
 - 06 Fixed columns：横向滚动时 name 和 ops 固定
@@ -1668,11 +1685,13 @@ pnpm typecheck
 pnpm test
 pnpm build
 ```
+
 Expected: 全绿。
 
 - [ ] **Step 2: 手工验证 playground**
 
 Run: `pnpm dev`
+
 - 展开 A 行 → A1 出现
 - 收起 A 行 → A1 消失
 - 06 demo 横向滚动 → name 列和 ops 列保持可见（M2 里因为 body 尚未虚拟滚动，横向滚动通过 viewport overflow 完成）
@@ -1692,6 +1711,7 @@ Run: `pnpm dev`
 ## Self-Review Notes
 
 **Coverage vs spec §19 M2**:
+
 - Table 组件骨架 + useTable ✓ Task 3/8
 - Header + Body + Row + Cell ✓ Task 4/5/7
 - 树形展开（受控 + 非受控 + defaultExpandedDepth）✓ Task 3/8
@@ -1701,12 +1721,14 @@ Run: `pnpm dev`
 - Playground demo 01/02/06/07 ✓ Task 10
 
 **Cross-cutting reminders relevant to M2**:
+
 - position: sticky 不嵌 absolute（M2 fixed pane 用 absolute + top:0/bottom:0；M3 sticky 是独立 pane 且不嵌套虚拟行内）
 - React 19 ref as prop（M2 不需要 ref；M6 引入 TableHandle 时用）
 - `useTransition` 只在 sort/filter 触发时用（M4 引入）
 - `computeVisibleRows` memoize（core 已确保；`useMemo` on model + expanded 是 React 层的复用）
 
 **Deferred to later milestones**:
+
 - 虚拟滚动 → M3
 - 拖拽视觉 + 交互 → M5
 - 选择、详情面板 → M6

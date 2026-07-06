@@ -2,7 +2,9 @@
   "name": "@draggable-table/theme",
   "version": "0.0.0",
   "description": "Default CSS theme for @draggable-table.",
-  "sideEffects": ["**/*.css"],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "main": "./src/index.css",
   "types": "./src/index.d.ts",
   "exports": {
@@ -12,7 +14,10 @@
     },
     "./index.css": "./src/index.css"
   },
-  "files": ["src", "README.md"],
+  "files": [
+    "src",
+    "README.md"
+  ],
   "scripts": {
     "build": "echo 'CSS shipped as-is' && exit 0",
     "typecheck": "echo 'no ts' && exit 0",

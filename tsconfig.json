@@ -3,9 +3,5 @@
   "compilerOptions": {
     "noEmit": true
   },
-  "include": [
-    "*.config.ts",
-    "packages/*/*.config.ts",
-    "apps/*/*.config.ts"
-  ]
+  "include": ["*.config.ts", "packages/*/*.config.ts", "apps/*/*.config.ts"]
 }

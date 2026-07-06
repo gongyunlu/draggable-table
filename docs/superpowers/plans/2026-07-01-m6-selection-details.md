@@ -46,6 +46,7 @@ tests/e2e/specs/
 ## Task 1: Checkbox + CheckboxCell + Row 集成
 
 **Files:**
+
 - Create: `packages/table/src/components/Selection/Checkbox.tsx`
 - Create: `packages/table/src/components/Selection/CheckboxCell.tsx`
 - Create: `packages/table/src/components/Selection/index.ts`
@@ -131,6 +132,7 @@ git commit -m "feat(table): checkbox with tri-state and per-row cell"
 ## Task 2: useTable 扩展 selection
 
 **Files:**
+
 - Modify: `packages/table/src/hooks/useTable.ts`
 - Create: `packages/table/tests/hooks/useTable-selection.test.tsx`
 
@@ -146,10 +148,7 @@ interface Row {
   children?: Row[]
 }
 
-const data: Row[] = [
-  { id: 'a', children: [{ id: 'a-1' }, { id: 'a-2' }] },
-  { id: 'b' },
-]
+const data: Row[] = [{ id: 'a', children: [{ id: 'a-1' }, { id: 'a-2' }] }, { id: 'b' }]
 
 describe('useTable selection', () => {
   it('multiple mode with cascadeParent: checking parent selects children', () => {
@@ -204,7 +203,11 @@ onSelectionChange?: (keys: RowKey[]) => void
 内部：
 
 ```ts
-import { cascadeSelect, computeCheckboxState, toggleSelect as toggleSelectSet } from '@draggable-table/core'
+import {
+  cascadeSelect,
+  computeCheckboxState,
+  toggleSelect as toggleSelectSet,
+} from '@draggable-table/core'
 
 const [selectedList, setSelectedList] = useControllable<RowKey[]>({
   value: options.selectedKeys,
@@ -231,7 +234,9 @@ const toggleSelect = (key: RowKey, checked?: boolean): void => {
 
 const getCheckboxState = (key: RowKey) =>
   options.selection?.cascadeParent === false
-    ? selected.has(key) ? 'checked' as const : 'unchecked' as const
+    ? selected.has(key)
+      ? ('checked' as const)
+      : ('unchecked' as const)
     : computeCheckboxState(model, selected, key)
 ```
 
@@ -257,6 +262,7 @@ git commit -m "feat(table): selection state with cascade and modes"
 ## Task 3: Row 集成 CheckboxCell
 
 **Files:**
+
 - Modify: `packages/table/src/components/Body/Row.tsx`
 
 - [ ] **Step 1: Row 加 selection 参数**
@@ -272,9 +278,11 @@ selected?: boolean
 在 Row JSX 开头（第一格前）加：
 
 ```tsx
-{checkboxState !== null && onToggleSelect && (
-  <CheckboxCell state={checkboxState ?? 'unchecked'} rowKey={row.key} onToggle={onToggleSelect} />
-)}
+{
+  checkboxState !== null && onToggleSelect && (
+    <CheckboxCell state={checkboxState ?? 'unchecked'} rowKey={row.key} onToggle={onToggleSelect} />
+  )
+}
 ```
 
 行整体 `data-selected={selected ? 'true' : undefined}`。
@@ -291,6 +299,7 @@ git commit -m "feat(table): row renders checkbox when selection.checkbox=true"
 ## Task 4: ExpandableRowPanel
 
 **Files:**
+
 - Create: `packages/table/src/components/ExpandableRow/ExpandableRowPanel.tsx`
 - Modify: `packages/table/src/hooks/useTable.ts`
 
@@ -356,6 +365,7 @@ git commit -m "feat(table): expandable row panel (independent from tree expand)"
 ## Task 5: Placeholder 组件
 
 **Files:**
+
 - Create: `packages/table/src/components/Placeholder/Empty.tsx`
 - Create: `packages/table/src/components/Placeholder/Loading.tsx`
 - Create: `packages/table/src/components/Placeholder/ErrorState.tsx`
@@ -419,6 +429,7 @@ git commit -m "feat(table): empty/loading/error placeholders"
 ## Task 6: Row-level ErrorBoundary
 
 **Files:**
+
 - Create: `packages/table/src/components/ErrorBoundary/RowErrorBoundary.tsx`
 
 - [ ] **Step 1: 实现**
@@ -478,6 +489,7 @@ git commit -m "feat(table): per-row error boundary isolation"
 ## Task 7: Table 集成 selection / expandable / placeholders / 样式选项
 
 **Files:**
+
 - Modify: `packages/table/src/Table.tsx`
 
 - [ ] **Step 1: Table Props 扩展**
@@ -547,9 +559,11 @@ errorState?: ReactNode
 在每个 Row 后面：
 
 ```tsx
-{props.expandableRow && state.expandedRow?.has(row.key) && (
-  <ExpandableRowPanel row={row} render={props.expandableRow.render} />
-)}
+{
+  props.expandableRow && state.expandedRow?.has(row.key) && (
+    <ExpandableRowPanel row={row} render={props.expandableRow.render} />
+  )
+}
 ```
 
 - [ ] **Step 6: 提交**
@@ -564,6 +578,7 @@ git commit -m "feat(table): integrate selection, expandable row, placeholders, s
 ## Task 8: 主题 CSS 补齐
 
 **Files:**
+
 - Modify: `packages/theme/src/vars.css`
 - Create: `packages/theme/src/placeholder.css`
 - Create: `packages/theme/src/dnd.css`
@@ -704,6 +719,7 @@ git commit -m "feat(theme): density/bordered/striped variants + dnd + placeholde
 ## Task 9: ExportCsv + TableHandle (ref API)
 
 **Files:**
+
 - Create: `packages/table/src/ref/TableHandle.ts`
 - Modify: `packages/table/src/Table.tsx`
 
@@ -738,34 +754,38 @@ React 19 里 `ref` 是普通 prop，`useImperativeHandle` 使用如常。加：
 import { useImperativeHandle } from 'react'
 import { toCsv, expandToDepth } from '@draggable-table/core'
 
-useImperativeHandle(props.ref, (): TableHandle<T> => ({
-  scrollToRow: (key, opts) => {
-    const idx = visibleRows.findIndex((r) => r.key === key)
-    if (idx < 0 || !scrollRef.current) return
-    const offset = virt.getOffset(idx)
-    const align = opts?.align ?? 'start'
-    if (align === 'start') scrollRef.current.scrollTop = offset
-    else if (align === 'center')
-      scrollRef.current.scrollTop = offset - viewportHeight / 2 + virt.getHeight(idx) / 2
-    else scrollRef.current.scrollTop = offset - viewportHeight + virt.getHeight(idx)
-  },
-  scrollToTop: () => {
-    if (scrollRef.current) scrollRef.current.scrollTop = 0
-  },
-  getVisibleRange: () => [virt.startIndex, virt.endIndex],
-  expandAll: () => {
-    const all = Array.from(expandToDepth(model, 'all'))
-    actions.setExpanded?.(all) ?? setExpanded(all)
-  },
-  collapseAll: () => {
-    actions.setExpanded?.([])
-  },
-  refresh: () => {
-    // trigger DataModel rebuild by forcing effect
-    // simplest: caller can pass fresh data reference; refresh is no-op if data is stable.
-  },
-  exportCsv: (opts) => toCsv(model, columns, opts),
-}), [visibleRows, virt, model, columns, viewportHeight])
+useImperativeHandle(
+  props.ref,
+  (): TableHandle<T> => ({
+    scrollToRow: (key, opts) => {
+      const idx = visibleRows.findIndex((r) => r.key === key)
+      if (idx < 0 || !scrollRef.current) return
+      const offset = virt.getOffset(idx)
+      const align = opts?.align ?? 'start'
+      if (align === 'start') scrollRef.current.scrollTop = offset
+      else if (align === 'center')
+        scrollRef.current.scrollTop = offset - viewportHeight / 2 + virt.getHeight(idx) / 2
+      else scrollRef.current.scrollTop = offset - viewportHeight + virt.getHeight(idx)
+    },
+    scrollToTop: () => {
+      if (scrollRef.current) scrollRef.current.scrollTop = 0
+    },
+    getVisibleRange: () => [virt.startIndex, virt.endIndex],
+    expandAll: () => {
+      const all = Array.from(expandToDepth(model, 'all'))
+      actions.setExpanded?.(all) ?? setExpanded(all)
+    },
+    collapseAll: () => {
+      actions.setExpanded?.([])
+    },
+    refresh: () => {
+      // trigger DataModel rebuild by forcing effect
+      // simplest: caller can pass fresh data reference; refresh is no-op if data is stable.
+    },
+    exportCsv: (opts) => toCsv(model, columns, opts),
+  }),
+  [visibleRows, virt, model, columns, viewportHeight],
+)
 ```
 
 Note: `expandAll` / `collapseAll` 需要 useTable 里 expose `setExpanded(keys: RowKey[])` action。M6 补一个直接 setter：
@@ -788,6 +808,7 @@ git commit -m "feat(table): TableHandle ref API (scroll, expand, exportCsv)"
 ## Task 10: SSR 兼容
 
 **Files:**
+
 - Modify: `packages/table/src/utils/ssr.ts` (已在 M3 创建)
 - Modify: `packages/table/src/Table.tsx`
 
@@ -821,6 +842,7 @@ git commit -m "chore(table): audit SSR-safe API usage and add SSR build script"
 ## Task 11: a11y — 关键 role/aria + keyboard focus 到行
 
 **Files:**
+
 - Modify: `packages/table/src/components/Body/Row.tsx`
 - Modify: `packages/table/src/components/Body/Cell.tsx`
 - Modify: `packages/table/src/components/Header/HeaderCell.tsx`
@@ -858,9 +880,7 @@ import AxeBuilder from '@axe-core/playwright'
 
 test('01 basic table has no serious a11y violations', async ({ page }) => {
   await page.goto('/')
-  const results = await new AxeBuilder({ page })
-    .withTags(['wcag2a', 'wcag2aa'])
-    .analyze()
+  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()
   const serious = results.violations.filter((v) => ['serious', 'critical'].includes(v.impact ?? ''))
   expect(serious).toEqual([])
 })
@@ -888,6 +908,7 @@ git commit -m "feat(table): keyboard-focusable rows and axe a11y test"
 ## Task 12: Playground demos 10, 11, 13
 
 **Files:**
+
 - Create: `apps/playground/src/examples/10-custom-cell.tsx`
 - Create: `apps/playground/src/examples/11-selection.tsx`
 - Create: `apps/playground/src/examples/13-headless.tsx`
@@ -958,7 +979,14 @@ interface Row {
 }
 
 const data: Row[] = [
-  { id: '1', name: 'Group A', children: [{ id: '1-1', name: 'A-1' }, { id: '1-2', name: 'A-2' }] },
+  {
+    id: '1',
+    name: 'Group A',
+    children: [
+      { id: '1-1', name: 'A-1' },
+      { id: '1-2', name: 'A-2' },
+    ],
+  },
   { id: '2', name: 'Group B' },
 ]
 
@@ -1080,6 +1108,7 @@ pnpm test:e2e
 ## Self-Review Notes
 
 **Coverage vs spec §10.1 + §14 + §H + §19 M6**:
+
 - Selection modes (single/multiple/checkbox/cascadeParent/keepAcrossPages) ✓ Task 1/2/3
 - expandableRow (与树独立) ✓ Task 4
 - columnVisibility API — Prop `ColumnDef.hidden` 已在 core.resolveColumns 支持（M1 覆盖），Table 组件通过 props 生效即可，不额外做
@@ -1091,11 +1120,13 @@ pnpm test:e2e
 - Row-level ErrorBoundary（不包整表）✓ Task 6
 
 **Cross-cutting reminders applied**:
+
 - React 19 ref as prop ✓ Task 9（useImperativeHandle 接 props.ref）
 - SSR 安全的 DOM 访问 ✓ Task 10（useIsomorphicLayoutEffect + 副作用移到 useEffect）
 - 单行 ErrorBoundary（不包整表）✓ Task 6
 
 **Deferred**:
+
 - Excel 导出独立子包 → v2
 - 完整 WAI-ARIA grid 合规 → v2
 - 完整键盘拖拽 → v2

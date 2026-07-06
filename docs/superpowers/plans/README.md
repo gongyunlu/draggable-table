@@ -14,16 +14,16 @@ Do not skip ahead. Each milestone's tasks assume prior milestones are complete.
 
 ## Plans
 
-| # | Milestone | Plan | Depends On |
-|---|---|---|---|
-| M0 | 骨架搭建（monorepo、tsdown、CI）| [2026-07-01-m0-scaffold.md](2026-07-01-m0-scaffold.md) | — |
-| M1 | Core 纯函数层 | [2026-07-01-m1-core.md](2026-07-01-m1-core.md) | M0 |
-| M2 | 静态渲染（无交互）| [2026-07-01-m2-static-render.md](2026-07-01-m2-static-render.md) | M0, M1 |
-| M3 | 虚拟滚动 | [2026-07-01-m3-virtual-scroll.md](2026-07-01-m3-virtual-scroll.md) | M0, M1, M2 |
-| M4 | 数据处理（排序/筛选/server）| [2026-07-01-m4-data-processing.md](2026-07-01-m4-data-processing.md) | M0, M1, M2 |
-| M5 | 拖拽（最难）| [2026-07-01-m5-dnd.md](2026-07-01-m5-dnd.md) | M0-M4 |
-| M6 | 选择 + 细节能力 | [2026-07-01-m6-selection-details.md](2026-07-01-m6-selection-details.md) | M0-M5 |
-| M7 | 打磨 + 文档 + 发布 | [2026-07-01-m7-polish-publish.md](2026-07-01-m7-polish-publish.md) | M0-M6 |
+| #   | Milestone                        | Plan                                                                     | Depends On |
+| --- | -------------------------------- | ------------------------------------------------------------------------ | ---------- |
+| M0  | 骨架搭建（monorepo、tsdown、CI） | [2026-07-01-m0-scaffold.md](2026-07-01-m0-scaffold.md)                   | —          |
+| M1  | Core 纯函数层                    | [2026-07-01-m1-core.md](2026-07-01-m1-core.md)                           | M0         |
+| M2  | 静态渲染（无交互）               | [2026-07-01-m2-static-render.md](2026-07-01-m2-static-render.md)         | M0, M1     |
+| M3  | 虚拟滚动                         | [2026-07-01-m3-virtual-scroll.md](2026-07-01-m3-virtual-scroll.md)       | M0, M1, M2 |
+| M4  | 数据处理（排序/筛选/server）     | [2026-07-01-m4-data-processing.md](2026-07-01-m4-data-processing.md)     | M0, M1, M2 |
+| M5  | 拖拽（最难）                     | [2026-07-01-m5-dnd.md](2026-07-01-m5-dnd.md)                             | M0-M4      |
+| M6  | 选择 + 细节能力                  | [2026-07-01-m6-selection-details.md](2026-07-01-m6-selection-details.md) | M0-M5      |
+| M7  | 打磨 + 文档 + 发布               | [2026-07-01-m7-polish-publish.md](2026-07-01-m7-polish-publish.md)       | M0-M6      |
 
 ## How to Execute a Milestone
 

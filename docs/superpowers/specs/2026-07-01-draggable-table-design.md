@@ -41,6 +41,7 @@
 ## 4. 功能范围（v1 Feature Scope）
 
 ### A. 树形
+
 - 树形数据展示（层级缩进 + 展开箭头）
 - 展开状态受控（`expandedKeys`）+ 非受控（`defaultExpandedKeys`）
 - 子节点异步懒加载（`loadChildren`）
@@ -49,6 +50,7 @@
 - 父子节点联动选择（勾父 → 勾子；半选态）
 
 ### B. 拖拽
+
 - 行拖拽同层
 - 行跨层级拖拽（`before` / `after` / `inside` 三点）
 - 列拖拽排序
@@ -58,6 +60,7 @@
 - 自定义 drop 校验：同步 `allowDrop` + 异步 `beforeDrop`
 
 ### C. 列
+
 - 左/右固定列（sticky pane 三层布局）
 - 多级表头（`ColumnDef.children`）
 - 列宽拖调（`resizable` + `minWidth` / `maxWidth`）
@@ -65,27 +68,32 @@
 - 自适应列宽（`width: 'auto' | number | 百分比`、`flex`）
 
 ### D. 数据处理
+
 - 单列 / 多列排序（Ctrl+Click 多列）
 - 内置筛选面板（enum / text 两种预设，custom 支持自渲染）
 - 分页核心逻辑（不带 UI，业务方组合）
 - 客户端模式 + 服务端模式（`mode: 'client' | 'server'`，`onRequest`）
 
 ### E. 选择与操作
+
 - 单选 / 多选（Ctrl+Click 增选 / Shift+Click 范围选）
 - 复选框列（`selection.checkbox`）
 - 跨页保留选择（`selection.keepAcrossPages`）
 - 行展开为详情面板（`expandableRow`，与树形展开互相独立）
 
 ### F. 编辑（v1 仅 cellRenderer）
+
 - `ColumnDef.render(row, ctx) => ReactNode` 支持任意 React 节点
 - 业务方可在 renderer 里塞 Input / Select 实现简易编辑（focus / 键盘 / 校验由业务方负责）
 
 ### G. 大数据性能
+
 - 行虚拟滚动（`virtual: true | { rowHeight, overscan }`）
 - 固定行高 + 声明式函数行高（`rowHeight: number | (row) => number`）
 - 无限滚动 / 触底加载（`infiniteScroll: { hasMore, onLoadMore, threshold }`）
 
 ### H. 其它
+
 - 状态占位（`empty`、`loading`、`errorState`）
 - 样式选项（`density: 'compact' | 'normal' | 'loose'`、`bordered`、`striped`）
 - CSS 变量主题（`--dt-*`）
@@ -105,21 +113,21 @@
 
 ## 6. 技术栈
 
-| 类别 | 选择 | 备注 |
-|---|---|---|
-| React | >= 19.0.0 | peerDep，锁 19+ |
-| 构建（应用）| Vite 8（含 Rolldown）| playground、docs |
-| 构建（库）| tsdown | core / table / theme 各自 tsdown |
-| Lint | Oxlint | 替代 ESLint |
-| 格式化 | Prettier | oxfmt 覆盖度不足 |
-| 单元测试 | Vitest | core / table hooks |
-| 组件测试 | Vitest + jsdom + @testing-library/react | 不测拖拽 |
-| E2E | Playwright | 拖拽、虚拟滚动、SSR、a11y |
-| 文档 | VitePress | React demo 通过 iframe embed playground |
-| DnD 底层 | @dnd-kit/core + @dnd-kit/sortable | 直接 dep 内置 |
-| 版本 | Changesets | v0.x 宽松、v1 后严格 semver |
-| CI | GitHub Actions | lint → typecheck → unit → build → e2e → bench → release |
-| 环境 | Node ≥ 20 / TS ≥ 5.6 / pnpm ≥ 9 | Vite 8 要求 |
+| 类别         | 选择                                    | 备注                                                    |
+| ------------ | --------------------------------------- | ------------------------------------------------------- |
+| React        | >= 19.0.0                               | peerDep，锁 19+                                         |
+| 构建（应用） | Vite 8（含 Rolldown）                   | playground、docs                                        |
+| 构建（库）   | tsdown                                  | core / table / theme 各自 tsdown                        |
+| Lint         | Oxlint                                  | 替代 ESLint                                             |
+| 格式化       | Prettier                                | oxfmt 覆盖度不足                                        |
+| 单元测试     | Vitest                                  | core / table hooks                                      |
+| 组件测试     | Vitest + jsdom + @testing-library/react | 不测拖拽                                                |
+| E2E          | Playwright                              | 拖拽、虚拟滚动、SSR、a11y                               |
+| 文档         | VitePress                               | React demo 通过 iframe embed playground                 |
+| DnD 底层     | @dnd-kit/core + @dnd-kit/sortable       | 直接 dep 内置                                           |
+| 版本         | Changesets                              | v0.x 宽松、v1 后严格 semver                             |
+| CI           | GitHub Actions                          | lint → typecheck → unit → build → e2e → bench → release |
+| 环境         | Node ≥ 20 / TS ≥ 5.6 / pnpm ≥ 9         | Vite 8 要求                                             |
 
 ## 7. Monorepo 结构
 
@@ -143,6 +151,7 @@ draggable-table/
 ```
 
 **包依赖关系**：
+
 - `@draggable-table/table` → deps: `@draggable-table/core` (workspace:\*), `@dnd-kit/core`, `@dnd-kit/sortable` ；peerDep: `react >= 19.0.0`
 - `@draggable-table/core` → deps: **无**（纯 TS，可在 Node/Worker 里跑）
 - `@draggable-table/theme` → deps: **无**（纯 CSS）
@@ -193,13 +202,12 @@ interface DataSource<T> {
   data: T[]
   rowKey: keyof T | ((row: T) => RowKey)
   // 无 tree = 纯列表；有 tree = 树形。可辨识联合类型编译期禁止歧义
-  tree?:
-    | { mode: 'children'; childrenKey: keyof T }
-    | { mode: 'parent'; parentKey: keyof T }
+  tree?: { mode: 'children'; childrenKey: keyof T } | { mode: 'parent'; parentKey: keyof T }
 }
 ```
 
 **规则**：
+
 - 无 `tree` → 纯列表（无树形）
 - `mode: 'children'` → 后端返回的嵌套形态
 - `mode: 'parent'` → 扁平 + 父 id 形态
@@ -210,24 +218,25 @@ interface DataSource<T> {
 ```ts
 interface InternalRow<T> {
   key: RowKey
-  raw: T                     // 原始数据（cellRenderer 时传回）
+  raw: T // 原始数据（cellRenderer 时传回）
   parentKey: RowKey | null
-  depth: number              // 0 = 根
-  index: number              // 同层顺序索引
+  depth: number // 0 = 根
+  index: number // 同层顺序索引
   hasChildren: boolean
-  childrenLoaded: boolean    // 懒加载状态
+  childrenLoaded: boolean // 懒加载状态
 }
 
 class DataModel<T> {
-  rows: InternalRow<T>[]                     // 全部行（无视展开状态）
-  byKey: Map<RowKey, InternalRow<T>>         // O(1) 定位
-  childrenMap: Map<RowKey | null, RowKey[]>  // 父 → 子 key 列表
+  rows: InternalRow<T>[] // 全部行（无视展开状态）
+  byKey: Map<RowKey, InternalRow<T>> // O(1) 定位
+  childrenMap: Map<RowKey | null, RowKey[]> // 父 → 子 key 列表
 }
 ```
 
 ### 9.3 规范化
 
 `normalize(source: DataSource<T>): DataModel<T>` 是**纯函数**：
+
 - 扁平列表输入：直接映射，`parentKey = null, depth = 0`
 - 嵌套输入（`mode: 'children'`）：深度优先遍历，累积 depth / parent / index
 - 扁平 + parentKey：先按 parentKey 建 childrenMap，再深度优先构造 rows 保证父在子前
@@ -243,16 +252,14 @@ interface TableProps<T> {
   // 数据
   data: T[]
   rowKey: keyof T | ((row: T) => RowKey)
-  tree?:
-    | { mode: 'children'; childrenKey: keyof T }
-    | { mode: 'parent'; parentKey: keyof T }
+  tree?: { mode: 'children'; childrenKey: keyof T } | { mode: 'parent'; parentKey: keyof T }
 
   // 列
   columns: ColumnDef<T>[]
 
   // 树形展开
-  expandedKeys?: RowKey[]                  // 受控
-  defaultExpandedKeys?: RowKey[]           // 非受控
+  expandedKeys?: RowKey[] // 受控
+  defaultExpandedKeys?: RowKey[] // 非受控
   defaultExpandedDepth?: number | 'all'
   onExpand?: (keys: RowKey[]) => void
   loadChildren?: (row: T) => Promise<T[]>
@@ -263,7 +270,7 @@ interface TableProps<T> {
   selection?: {
     mode: 'single' | 'multiple'
     checkbox?: boolean
-    cascadeParent?: boolean                // 默认 true
+    cascadeParent?: boolean // 默认 true
     keepAcrossPages?: boolean
   }
   onSelectionChange?: (keys: RowKey[]) => void
@@ -272,14 +279,14 @@ interface TableProps<T> {
   draggable?: {
     rows?: boolean
     columns?: boolean
-    allowInsideLeaf?: boolean              // 叶子节点是否允许 inside，默认 false
+    allowInsideLeaf?: boolean // 叶子节点是否允许 inside，默认 false
   }
-  allowDrop?: (ctx: DropCtx<T>) => boolean            // 同步校验
-  beforeDrop?: (ctx: DropCtx<T>) => Promise<boolean>  // 异步校验
+  allowDrop?: (ctx: DropCtx<T>) => boolean // 同步校验
+  beforeDrop?: (ctx: DropCtx<T>) => Promise<boolean> // 异步校验
   onDragEnd?: (ctx: DropCtx<T>) => void
 
   // 数据处理
-  sort?: SortState[]                       // 受控
+  sort?: SortState[] // 受控
   defaultSort?: SortState[]
   onSortChange?: (state: SortState[]) => void
   filter?: FilterState
@@ -288,7 +295,7 @@ interface TableProps<T> {
 
   // 数据源模式
   mode?: 'client' | 'server'
-  totalCount?: number                      // server 模式必填
+  totalCount?: number // server 模式必填
   onRequest?: (params: RequestParams) => Promise<{ rows: T[]; total: number; cursor?: unknown }>
 
   // 详情面板（与树形展开独立）
@@ -299,20 +306,22 @@ interface TableProps<T> {
   }
 
   // 虚拟滚动
-  virtual?: boolean | {
-    rowHeight?: number | ((row: T) => number)   // 默认 40
-    overscan?: number                            // 默认 5
-  }
+  virtual?:
+    | boolean
+    | {
+        rowHeight?: number | ((row: T) => number) // 默认 40
+        overscan?: number // 默认 5
+      }
   infiniteScroll?: {
     hasMore: boolean
     onLoadMore: () => Promise<void>
-    threshold?: number                           // 默认 200
+    threshold?: number // 默认 200
   }
 
   // 样式与状态
-  density?: 'compact' | 'normal' | 'loose'       // 默认 'normal'
-  bordered?: 'none' | 'horizontal' | 'grid'      // 默认 'horizontal'
-  striped?: boolean                              // 默认 false
+  density?: 'compact' | 'normal' | 'loose' // 默认 'normal'
+  bordered?: 'none' | 'horizontal' | 'grid' // 默认 'horizontal'
+  striped?: boolean // 默认 false
   loading?: boolean
   empty?: ReactNode
   errorState?: ReactNode
@@ -328,7 +337,7 @@ interface TableProps<T> {
 interface ColumnDef<T> {
   key: string
   title: ReactNode | (() => ReactNode)
-  field?: keyof T                          // 省略时须提供 render
+  field?: keyof T // 省略时须提供 render
   render?: (row: T, ctx: CellCtx) => ReactNode
 
   // 宽度
@@ -369,7 +378,7 @@ interface ColumnDef<T> {
 interface DropCtx<T> {
   dragRow: T
   dragKey: RowKey
-  targetRow: T | null                      // 拖到空区时 null
+  targetRow: T | null // 拖到空区时 null
   targetKey: RowKey | null
   position: 'before' | 'after' | 'inside'
   newParentKey: RowKey | null
@@ -397,10 +406,10 @@ type FilterValue =
   | { type: 'enum'; values: unknown[] }
   | { type: 'text'; value: string; predicate: 'contains' | 'startsWith' | 'equals' }
   | { type: 'custom'; value: unknown }
-  | null                                    // null = 该列无筛选
+  | null // null = 该列无筛选
 
 interface CellCtx {
-  rowIndex: number                          // 在 visibleRows 中的索引
+  rowIndex: number // 在 visibleRows 中的索引
   rowKey: RowKey
   depth: number
   isExpanded: boolean
@@ -409,7 +418,7 @@ interface CellCtx {
 
 interface FilterCtx {
   columnKey: string
-  value: unknown                            // 当前筛选值
+  value: unknown // 当前筛选值
   onChange: (next: unknown) => void
   close: () => void
 }
@@ -419,7 +428,7 @@ interface ResolvedColumn<T> {
   title: ReactNode | (() => ReactNode)
   field?: keyof T
   render?: (row: T, ctx: CellCtx) => ReactNode
-  computedWidth: number                     // 布局阶段算出的最终宽度（px）
+  computedWidth: number // 布局阶段算出的最终宽度（px）
   minWidth: number
   maxWidth: number
   fixed?: 'left' | 'right'
@@ -428,17 +437,17 @@ interface ResolvedColumn<T> {
   sortMulti: boolean
   sorter?: (a: T, b: T) => number
   filter?: ColumnDef<T>['filter']
-  depth: number                             // 多级表头中该列的深度
-  leafKey?: string                          // 如果是分组表头，指向其叶子链
+  depth: number // 多级表头中该列的深度
+  leafKey?: string // 如果是分组表头，指向其叶子链
   ariaLabel?: string
 }
 
 interface CsvOptions<T = unknown> {
-  columns?: string[]                        // 限定导出的列 key；不填 = 所有可见列
-  includeHiddenColumns?: boolean            // 默认 false
-  separator?: string                        // 默认 ','
-  newline?: string                          // 默认 '\n'
-  header?: boolean                          // 默认 true
+  columns?: string[] // 限定导出的列 key；不填 = 所有可见列
+  includeHiddenColumns?: boolean // 默认 false
+  separator?: string // 默认 ','
+  newline?: string // 默认 '\n'
+  header?: boolean // 默认 true
   formatter?: (value: unknown, column: ResolvedColumn<T>, row: T) => string
 }
 ```
@@ -452,8 +461,8 @@ interface TableHandle<T> {
   getVisibleRange(): [number, number]
   expandAll(): void
   collapseAll(): void
-  refresh(): void                          // 强制重算 DataModel
-  exportCsv(options?: CsvOptions<T>): string  // 返回字符串（SSR 友好），业务方决定下载
+  refresh(): void // 强制重算 DataModel
+  exportCsv(options?: CsvOptions<T>): string // 返回字符串（SSR 友好），业务方决定下载
 }
 ```
 
@@ -493,6 +502,7 @@ function useTable<T>(props: TableProps<T>): {
 ## 11. 拖拽命中检测算法（v1 定案）
 
 **UX 模式**：
+
 - 被拖行**原地无样式**（不做高亮，视线跟随光标预览）
 - DragOverlay 里显示悬浮预览 chip（首列内容 + 上下箭头 icon）
 - Drop 指示：2px 蓝色横线（before/after）或 淡红/粉色背景（inside）
@@ -501,7 +511,12 @@ function useTable<T>(props: TableProps<T>): {
 
 ```ts
 function computeDropTarget<T>({
-  dragKey, pointerY, targetRow, model, expandedKeys, allowInsideLeaf
+  dragKey,
+  pointerY,
+  targetRow,
+  model,
+  expandedKeys,
+  allowInsideLeaf,
 }): DropCtx<T> | null {
   const ratio = (pointerY - targetRow.rect.top) / targetRow.rect.height
   const canInside = targetRow.hasChildren || allowInsideLeaf
@@ -517,19 +532,15 @@ function computeDropTarget<T>({
     newParentKey = targetRow.parentKey
     newIndex = targetRow.index
     // Surely 解读：target 有父 → 高亮父为 inside 态
-    highlight = targetRow.parentKey !== null
-      ? { row: targetRow.parentKey, style: 'inside' }
-      : null
-
+    highlight = targetRow.parentKey !== null ? { row: targetRow.parentKey, style: 'inside' } : null
   } else if (ratio < 2 / 3 && canInside) {
     // Inside target
     position = 'inside'
     newParentKey = targetRow.key
     newIndex = expandedKeys.has(targetRow.key)
-      ? 0                                                // 已展开 → 变第一个子
-      : (model.childrenMap.get(targetRow.key)?.length ?? 0)  // 未展开 → 变最后一个子
+      ? 0 // 已展开 → 变第一个子
+      : (model.childrenMap.get(targetRow.key)?.length ?? 0) // 未展开 → 变最后一个子
     highlight = { row: targetRow.key, style: 'inside' }
-
   } else {
     // After target
     if (targetRow.hasChildren && expandedKeys.has(targetRow.key)) {
@@ -542,26 +553,27 @@ function computeDropTarget<T>({
       position = 'after'
       newParentKey = targetRow.parentKey
       newIndex = targetRow.index + 1
-      highlight = targetRow.parentKey !== null
-        ? { row: targetRow.parentKey, style: 'inside' }
-        : null
+      highlight =
+        targetRow.parentKey !== null ? { row: targetRow.parentKey, style: 'inside' } : null
     }
   }
 
   // 循环检测：禁止把祖先拖成子孙
   if (isDescendant(model, dragKey, newParentKey)) return null
 
-  return { position, newParentKey, newIndex, highlight, /* ... */ }
+  return { position, newParentKey, newIndex, highlight /* ... */ }
 }
 ```
 
 **关键规则**：
+
 1. **叶子节点默认无 inside**（业务方可通过 `draggable.allowInsideLeaf = true` 允许）
 2. **before + target 有父 → 高亮父级为 inside 态**（Surely 解读；数据结果 = 变成父的新子节点，位置在原 target 之前）
 3. **after + 已展开父级 → 转 inside 首位**（视觉上下方就是它的第一个子）
 4. **循环检测**：`isDescendant(model, dragKey, newParentKey)` 命中则返回 null（drop 无效）
 
 **虚拟滚动兼容**：
+
 - 拖行滚出可视区：dnd-kit DragOverlay 是独立 portal 层，drag state 与被拖 DOM 无耦合
 - 边缘 autoScroll：`@dnd-kit/modifiers` autoScroll，触发区 40px，加速度 20→200 px/s
 - Drop 指示线跨虚拟行：横线是 DragOverlay 里的绝对定位元素，位置从 `targetRow.rect` 计算
@@ -571,13 +583,11 @@ function computeDropTarget<T>({
 ### 12.1 核心算法（core/virtualizer）
 
 ```ts
-function computeVisibleRange({
-  scrollTop, viewportHeight, rows, rowHeightFn, overscan
-}): {
+function computeVisibleRange({ scrollTop, viewportHeight, rows, rowHeightFn, overscan }): {
   startIndex: number
   endIndex: number
   totalHeight: number
-  offsetTop: number  // 第一个可见行到顶部的距离
+  offsetTop: number // 第一个可见行到顶部的距离
 }
 ```
 
@@ -608,11 +618,15 @@ function computeVisibleRange({
 
 ```html
 <div class="dt-table" role="grid">
-  <div class="dt-viewport">                    <!-- overflow: auto -->
-    <div class="dt-body-scroller"></div>       <!-- position: relative -->
+  <div class="dt-viewport">
+    <!-- overflow: auto -->
+    <div class="dt-body-scroller"></div>
+    <!-- position: relative -->
   </div>
-  <div class="dt-fixed-left-pane"></div>       <!-- position: sticky; left: 0 -->
-  <div class="dt-fixed-right-pane"></div>      <!-- position: sticky; right: 0 -->
+  <div class="dt-fixed-left-pane"></div>
+  <!-- position: sticky; left: 0 -->
+  <div class="dt-fixed-right-pane"></div>
+  <!-- position: sticky; right: 0 -->
 </div>
 ```
 
@@ -627,12 +641,14 @@ function computeVisibleRange({
 ### 13.1 State 分类
 
 **① 派生 state**（由输入推导，不独立存在）：
+
 - `DataModel`（`data + tree` 归一化）
 - `visibleRows`（`model + expanded + sort + filter`）
 - `virtualRange`（`visibleRows + scrollTop + viewportH`）
 - `resolvedColumns`（`columns + hidden + widths`）
 
 **② 交互 state**（用户操作产生，受控/非受控双支持）：
+
 - `expandedKeys: Set<RowKey>`
 - `selectedKeys: Set<RowKey>`
 - `sort: SortState[]`
@@ -642,6 +658,7 @@ function computeVisibleRange({
 - `columnVisibility: Record<string, boolean>`
 
 **③ 瞬态 state**（不需要持久化、无受控 API）：
+
 - `scrollTop`（DOM 直读，非 React state）
 - `hoveredRowKey`
 - `draggingKey`
@@ -650,6 +667,7 @@ function computeVisibleRange({
 ### 13.2 受控/非受控
 
 统一用 `useControllable(prop, defaultProp, onChange)` hook：
+
 - 只传 `xxx`（如 `expandedKeys`）= 受控
 - 只传 `defaultXxx`（如 `defaultExpandedKeys`）= 非受控
 - 两者都传 = 以受控为准 + dev warning
@@ -668,7 +686,7 @@ type RequestParams = {
   pageSize?: number
   sort: SortState[]
   filter: FilterState
-  cursor?: string | number  // 无限滚动模式
+  cursor?: string | number // 无限滚动模式
   limit?: number
 }
 ```
@@ -701,11 +719,11 @@ function applyDrop<T>(data: T[], ctx: DropCtx<T>, cfg: {
 
 ## 14. 错误处理
 
-| 类型 | 处理 |
-|---|---|
-| **配置错误**（rowKey 不存在、mode 不匹配）| Dev `console.warn`（含文档链接），prod 静音 |
-| **数据错误**（重复 key / 悬空 parentKey / 循环引用）| normalize 阶段收集、尽可能渲染、dev warn |
-| **运行时错误**（用户回调 throw）| 单行 ErrorBoundary 隔离；onRequest reject → errorState；beforeDrop reject → drop 中止 |
+| 类型                                                 | 处理                                                                                  |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| **配置错误**（rowKey 不存在、mode 不匹配）           | Dev `console.warn`（含文档链接），prod 静音                                           |
+| **数据错误**（重复 key / 悬空 parentKey / 循环引用） | normalize 阶段收集、尽可能渲染、dev warn                                              |
+| **运行时错误**（用户回调 throw）                     | 单行 ErrorBoundary 隔离；onRequest reject → errorState；beforeDrop reject → drop 中止 |
 
 **ErrorBoundary 策略**：内置一层，**只包 Row/Cell**（作用域限单行）。不包整个 Table（留业务方全局处理）。不使用 React 19 的 `onCaughtError`。
 
@@ -717,6 +735,7 @@ function applyDrop<T>(data: T[], ctx: DropCtx<T>, cfg: {
 - **图标**：inline SVG（展开箭头、排序箭头、拖拽 handle、复选框状态），不引入 icon 库
 
 **核心 CSS 变量清单**：
+
 ```css
 --dt-border-color
 --dt-row-hover-bg
@@ -736,6 +755,7 @@ function applyDrop<T>(data: T[], ctx: DropCtx<T>, cfg: {
 - **sideEffects**：`"sideEffects": ["**/*.css"]`
 
 **使用姿势**：
+
 ```ts
 import { Table } from '@draggable-table/table'
 import '@draggable-table/theme'
@@ -784,6 +804,7 @@ GitHub Actions:
 **目标**：monorepo 能跑起来，能发一个空组件到 npm。
 
 **任务**：
+
 - pnpm workspace + tsconfig.base + oxlint + prettier + changesets
 - packages/core、table、theme 三个空包，tsdown 打包配置
 - apps/playground（Vite + React 19，引用 workspace 的 table）
@@ -791,6 +812,7 @@ GitHub Actions:
 - GitHub Actions：lint / typecheck / build 三步 CI
 
 **验收标准**：
+
 - [ ] `pnpm install` 一次成功
 - [ ] `pnpm build` 三个包各出 `dist/`（含 ESM + CJS + d.ts）
 - [ ] `pnpm dev` playground 显示 "Hello Draggable Table"
@@ -803,6 +825,7 @@ GitHub Actions:
 **目标**：core 里所有纯函数完成 + 单元测试。
 
 **任务**（按依赖顺序）：
+
 - `DataModel` + `normalize`（三种输入形态：扁平列表 / 嵌套 / 扁平+parentKey）
 - `traverse` 工具（dfs / bfs / getDescendants / isDescendant）
 - `computeVisibleRows`（合并 sort/filter/expand，memoize）
@@ -813,6 +836,7 @@ GitHub Actions:
 - `toCsv`
 
 **验收标准**：
+
 - [ ] Vitest 单元测试 ≥ 90% line、85% branch
 - [ ] `@draggable-table/core` 可独立 npm publish 并被外部项目 import
 - [ ] core 包 `deps: {}`（除 devDep 外无任何运行时依赖）
@@ -823,6 +847,7 @@ GitHub Actions:
 **目标**：能显示表格但没有任何交互。
 
 **任务**：
+
 - `<Table>` 组件骨架 + `useTable` hook
 - Header + Body + Row + Cell 组件
 - 树形展开（受控 `expandedKeys` / 非受控 `defaultExpandedKeys` + `defaultExpandedDepth`）
@@ -832,6 +857,7 @@ GitHub Actions:
 - Playground demo：01-basic、02-tree、06-fixed-columns、07-multi-header
 
 **验收标准**：
+
 - [ ] 1000 行嵌套树能正常展示
 - [ ] 树形展开/收起切换 OK
 - [ ] 左右固定列在横向滚动时保持位置正确
@@ -843,6 +869,7 @@ GitHub Actions:
 **目标**：10 万行数据流畅滚动。
 
 **任务**：
+
 - `useVirtualizer` 集成 core/computeVirtualRange
 - DOM 层：viewport + spacer + absolute 行 + translate3d
 - overscan（默认 5）
@@ -851,6 +878,7 @@ GitHub Actions:
 - Playground demo：05-virtual-100k
 
 **验收标准**：
+
 - [ ] 10 万行数据首次渲染 < 100ms
 - [ ] 快速滚动帧率 ≥ 55fps（Chrome DevTools performance panel 验证）
 - [ ] 声明式函数行高：不同 row 类型返回不同高度时布局正确
@@ -861,6 +889,7 @@ GitHub Actions:
 **目标**：排序 + 筛选 + 服务端模式。
 
 **任务**：
+
 - Header 里的排序 icon + 点击切换（asc / desc / null 三态）
 - 多列排序（Ctrl+Click 加入多列，`ColumnDef.sortable = { multi: true }`）
 - 内置 `FilterPopover`（enum + text）
@@ -871,6 +900,7 @@ GitHub Actions:
 - Playground demo：08-server-side、09-infinite-scroll
 
 **验收标准**：
+
 - [ ] Server 模式：所有 sort/filter/paging 参数正确发到 onRequest
 - [ ] 并发多次点击排序：只有最后一次 request 的结果生效
 - [ ] 无限滚动触底：`onLoadMore` 触发；返回后追加数据
@@ -881,6 +911,7 @@ GitHub Actions:
 **目标**：行拖拽 + 列拖拽 + 完整 UX（第 11 节）。
 
 **任务**：
+
 - 集成 `@dnd-kit/core` + `@dnd-kit/sortable`
 - `useDnd` hook 桥接 core/hitTest 到 dnd-kit
 - 行拖拽（同层 + 跨层 before/after/inside）
@@ -896,6 +927,7 @@ GitHub Actions:
 - Playground demo：03-drag-row、04-drag-column
 
 **验收标准**：
+
 - [ ] 10 万行数据 + 深层树 + 拖拽三种落点（before/after/inside）全部工作
 - [ ] 拖到边缘 40px 内自动滚动
 - [ ] 被拖行滚出可视区后拖拽状态不丢失
@@ -908,6 +940,7 @@ GitHub Actions:
 **目标**：完整选择系统 + 零散功能。
 
 **任务**：
+
 - selection（single / multiple / checkbox / cascadeParent / keepAcrossPages）
 - Ctrl+Click 增选、Shift+Click 范围选（在**可见行**范围内）
 - 父子联动（`cascadeParent = true` 默认）：勾父 → 勾所有子 + 半选态显示
@@ -921,6 +954,7 @@ GitHub Actions:
 - Playground demo：10、11、13-headless
 
 **验收标准**：
+
 - [ ] `pnpm build:ssr` playground SSR 输出成功
 - [ ] axe-core 扫描无 serious/critical 违规
 - [ ] 键盘 Tab 能 focus 到行；Enter/Space 触发选择
@@ -929,6 +963,7 @@ GitHub Actions:
 ### M7 · 打磨 + 文档 + 发布
 
 **任务**：
+
 - Docs 全部页面（guide × 8 + api × N + examples via iframe embed playground）
 - 性能基线 CI 步骤（记录到 `.github/perf-baseline.json`）
 - Bug 修复轮次
@@ -937,6 +972,7 @@ GitHub Actions:
 - 第一次 npm publish：`@draggable-table/core`、`table`、`theme`
 
 **验收标准**：
+
 - [ ] 从零 `npm i @draggable-table/table @draggable-table/theme` 到能跑起 basic demo
 - [ ] Docs 站可访问、所有 examples iframe 加载正常
 - [ ] 类型定义无 `any`（除内部实现细节）
@@ -975,6 +1011,7 @@ X 位置分段是隐藏交互，新用户不会尝试；业务里跨层级拖拽
 测量式变高在拖拽 × 虚拟滚动的组合下会引入行高抖动、autoScroll 触发时机不稳、drop 阈值闪跳等问题。解决方案是 scroll anchoring + ResizeObserver 批量 + 好估算函数（Worker/rIC 都帮不上，DOM 测量跨不过主线程），是 v2 的一块独立工作。声明式行高已能覆盖 80% 变高场景。
 
 **为什么用 dnd-kit 而不是 react-dnd 或自研？**
+
 - react-dnd 底层仍是 HTML5 DnD，被拖 DOM 消失时 undefined behavior，与虚拟滚动冲突
 - dnd-kit pointer-based + 触摸 + 键盘统一 sensor，天然与虚拟滚动兼容
 - 自研会让 v1 工作量增加 30-50%（键盘 / 触摸 / a11y 都要自己做）

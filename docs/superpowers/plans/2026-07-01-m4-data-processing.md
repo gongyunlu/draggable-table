@@ -40,6 +40,7 @@ apps/playground/src/examples/
 ## Task 1: SortIcon + Header 排序 UI
 
 **Files:**
+
 - Create: `packages/table/src/components/icons/ArrowUp.tsx`
 - Create: `packages/table/src/components/icons/ArrowDown.tsx`
 - Create: `packages/table/src/components/Header/SortIcon.tsx`
@@ -53,7 +54,16 @@ apps/playground/src/examples/
 import type { SVGProps } from 'react'
 export function ArrowUp(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden {...props}>
+    <svg
+      viewBox="0 0 12 12"
+      width="12"
+      height="12"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      aria-hidden
+      {...props}
+    >
       <path d="M6 9V3M3 6l3-3 3 3" />
     </svg>
   )
@@ -66,7 +76,16 @@ export function ArrowUp(props: SVGProps<SVGSVGElement>) {
 import type { SVGProps } from 'react'
 export function ArrowDown(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden {...props}>
+    <svg
+      viewBox="0 0 12 12"
+      width="12"
+      height="12"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      aria-hidden
+      {...props}
+    >
       <path d="M6 3v6M3 6l3 3 3-3" />
     </svg>
   )
@@ -89,9 +108,7 @@ export interface SortIconProps {
 export function SortIcon({ direction }: SortIconProps) {
   return (
     <span className={`dt-sort-icon dt-sort-icon--${direction ?? 'none'}`}>
-      <ArrowUp
-        style={{ opacity: direction === 'asc' ? 1 : 0.3, display: 'block' }}
-      />
+      <ArrowUp style={{ opacity: direction === 'asc' ? 1 : 0.3, display: 'block' }} />
       <ArrowDown
         style={{ opacity: direction === 'desc' ? 1 : 0.3, display: 'block', marginTop: -4 }}
       />
@@ -178,6 +195,7 @@ git commit -m "feat(table): sort icon and filter trigger in header cell"
 ## Task 2: useTable 扩展 sort/filter
 
 **Files:**
+
 - Modify: `packages/table/src/hooks/useTable.ts`
 - Create: `packages/table/tests/hooks/useTable-sort.test.tsx`
 
@@ -426,6 +444,7 @@ git commit -m "feat(table): sort and filter in useTable with useTransition"
 ## Task 3: FilterPopover（enum + text）
 
 **Files:**
+
 - Create: `packages/table/src/components/Header/FilterEnum.tsx`
 - Create: `packages/table/src/components/Header/FilterText.tsx`
 - Create: `packages/table/src/components/Header/FilterPopover.tsx`
@@ -458,7 +477,11 @@ export function FilterEnum<T>({ column, value, onChange }: FilterEnumProps<T>) {
     <div className="dt-filter dt-filter--enum">
       {options.map((opt) => (
         <label key={String(opt.value)} className="dt-filter__option">
-          <input type="checkbox" checked={selected.includes(opt.value)} onChange={() => toggle(opt.value)} />
+          <input
+            type="checkbox"
+            checked={selected.includes(opt.value)}
+            onChange={() => toggle(opt.value)}
+          />
           {opt.label}
         </label>
       ))}
@@ -507,7 +530,9 @@ export function FilterText<T>({ column, value, onChange, onClose }: FilterTextPr
         autoFocus
         placeholder={`Filter by ${predicate}`}
       />
-      <button type="button" onClick={commit}>Apply</button>
+      <button type="button" onClick={commit}>
+        Apply
+      </button>
       <button
         type="button"
         onClick={() => {
@@ -556,7 +581,11 @@ export function FilterPopover<T>({
     }
 
     const handler = (e: MouseEvent): void => {
-      if (ref.current && !ref.current.contains(e.target as Node) && !anchor.contains(e.target as Node)) {
+      if (
+        ref.current &&
+        !ref.current.contains(e.target as Node) &&
+        !anchor.contains(e.target as Node)
+      ) {
         onClose()
       }
     }
@@ -608,6 +637,7 @@ git commit -m "feat(table): filter popover with enum / text / custom types"
 ## Task 4: Table 集成排序 + 筛选
 
 **Files:**
+
 - Modify: `packages/table/src/Table.tsx`
 
 - [ ] **Step 1: 更新 Table 里 HeaderGroup 的调用，接收 sort/filter 状态**
@@ -615,7 +645,13 @@ git commit -m "feat(table): filter popover with enum / text / custom types"
 先修改 HeaderGroup 让 leaf 层的 HeaderCell 拿到 sort/filter callbacks。修改 `packages/table/src/components/Header/HeaderGroup.tsx`：
 
 ```tsx
-import type { ColumnDef, ResolvedColumn, SortDirection, SortState, FilterState } from '@draggable-table/core'
+import type {
+  ColumnDef,
+  ResolvedColumn,
+  SortDirection,
+  SortState,
+  FilterState,
+} from '@draggable-table/core'
 import { HeaderCell } from './HeaderCell.js'
 
 // ...（保留 buildRows 函数不变）
@@ -687,7 +723,9 @@ export function HeaderGroup<T>({
 import { FilterPopover } from './components/Header/FilterPopover.js'
 
 // inside Table<T>()
-const [filterAnchor, setFilterAnchor] = useState<{ columnKey: string; anchor: HTMLElement } | null>(null)
+const [filterAnchor, setFilterAnchor] = useState<{ columnKey: string; anchor: HTMLElement } | null>(
+  null,
+)
 ```
 
 然后 HeaderGroup 处传入 handlers：
@@ -706,18 +744,20 @@ const [filterAnchor, setFilterAnchor] = useState<{ columnKey: string; anchor: HT
 在整个 `.dt-table` div 结尾（`</div>` 之前）加：
 
 ```tsx
-{filterAnchor && (
-  <FilterPopover
-    column={columns.find((c) => c.key === filterAnchor.columnKey)!}
-    anchor={filterAnchor.anchor}
-    value={state.filter[filterAnchor.columnKey] ?? null}
-    onChange={(v) => {
-      if (v === null) actions.clearFilter(filterAnchor.columnKey)
-      else actions.setFilter(filterAnchor.columnKey, v)
-    }}
-    onClose={() => setFilterAnchor(null)}
-  />
-)}
+{
+  filterAnchor && (
+    <FilterPopover
+      column={columns.find((c) => c.key === filterAnchor.columnKey)!}
+      anchor={filterAnchor.anchor}
+      value={state.filter[filterAnchor.columnKey] ?? null}
+      onChange={(v) => {
+        if (v === null) actions.clearFilter(filterAnchor.columnKey)
+        else actions.setFilter(filterAnchor.columnKey, v)
+      }}
+      onClose={() => setFilterAnchor(null)}
+    />
+  )
+}
 ```
 
 - [ ] **Step 3: 测试 + typecheck**
@@ -737,6 +777,7 @@ git commit -m "feat(table): integrate sort + filter into Table"
 ## Task 5: useServerData + Server 模式
 
 **Files:**
+
 - Create: `packages/table/src/hooks/useServerData.ts`
 - Create: `packages/table/tests/hooks/useServerData.test.tsx`
 
@@ -850,7 +891,12 @@ export function useServerData<T>(options: ServerDataOptions<T>): ServerDataState
     const id = ++requestIdRef.current
     setLoading(true)
     setError(null)
-    onRequest({ sort, filter, ...(page !== undefined ? { page } : {}), ...(pageSize !== undefined ? { pageSize } : {}) })
+    onRequest({
+      sort,
+      filter,
+      ...(page !== undefined ? { page } : {}),
+      ...(pageSize !== undefined ? { pageSize } : {}),
+    })
       .then((res) => {
         if (id !== requestIdRef.current) return // stale
         setRows(res.rows)
@@ -885,6 +931,7 @@ git commit -m "feat(table): useServerData with requestId concurrency guard"
 ## Task 6: useInfiniteScroll
 
 **Files:**
+
 - Create: `packages/table/src/hooks/useInfiniteScroll.ts`
 
 - [ ] **Step 1: 实现**
@@ -936,6 +983,7 @@ git commit -m "feat(table): useInfiniteScroll fires onLoadMore near bottom"
 ## Task 7: Playground demos 08 + 09
 
 **Files:**
+
 - Create: `apps/playground/src/examples/08-server-side.tsx`
 - Create: `apps/playground/src/examples/09-infinite-scroll.tsx`
 - Modify: `apps/playground/src/App.tsx`
@@ -980,7 +1028,9 @@ export function ServerSide() {
   return (
     <>
       <h2>Server-side mode</h2>
-      <p>Total: {total} {loading && '(loading...)'}</p>
+      <p>
+        Total: {total} {loading && '(loading...)'}
+      </p>
       <div style={{ marginBottom: 12 }}>
         Page:{' '}
         {[1, 2, 3, 4, 5].map((n) => (
@@ -1041,7 +1091,9 @@ export function InfiniteScroll() {
   return (
     <>
       <h2>Infinite scroll (client-driven)</h2>
-      <p>Loaded: {rows.length} / {TOTAL}</p>
+      <p>
+        Loaded: {rows.length} / {TOTAL}
+      </p>
       <Table<MockRow>
         data={rows}
         rowKey="id"
@@ -1105,6 +1157,7 @@ export { useServerData, type RequestParams } from './hooks/useServerData.js'
 - [ ] **Step 6: 手工验证 + 提交**
 
 Run: `pnpm dev`
+
 - 08 demo：点击列头能排序（Header 显示箭头，200ms 后 rows 更新），切换 page 触发新 request
 - 09 demo：滚到底部自动加载下一页，直到 1000 行为止
 
@@ -1127,6 +1180,7 @@ git commit -m "feat(playground): server-side and infinite-scroll demos"
 ## Self-Review Notes
 
 **Coverage vs spec §10-13 + §19 M4**:
+
 - Header 排序 icon + 点击 (asc → desc → null) ✓ Task 1/2
 - 多列排序 (sortable: { multi: true }) ✓ Task 2
 - 内置 FilterPopover (enum + text) ✓ Task 3
@@ -1136,6 +1190,7 @@ git commit -m "feat(playground): server-side and infinite-scroll demos"
 - useTransition 包 sort/filter setState ✓ Task 2
 
 **Cross-cutting reminders applied**:
+
 - server 模式下 sort/filter 不本地执行 ✓（useTable 里 `serverMode` flag 短路 computeVisibleRows）
 - useTransition 只包 sort/filter，不包 expand ✓
 - 失败不内置重试：useServerData 只 setError，业务方决定 UI 表现 ✓
