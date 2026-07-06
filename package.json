@@ -13,7 +13,7 @@
     "build": "pnpm --filter \"./packages/*\" run build",
     "build:apps": "pnpm --filter \"./apps/*\" run build",
     "lint": "oxlint .",
-    "typecheck": "pnpm -r --parallel run typecheck",
+    "typecheck": "tsc --noEmit -p . && pnpm -r --parallel run typecheck",
     "test": "pnpm -r --parallel run test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.0",
+    "@types/node": "^26.1.0",
     "oxlint": "^1.0.0",
     "prettier": "^3.3.0",
     "typescript": "^5.6.0"
