@@ -4,3 +4,5 @@ dist
 .vitepress/dist
 pnpm-lock.yaml
 CHANGELOG.md
+.editorconfig
+.husky

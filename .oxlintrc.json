@@ -10,5 +10,5 @@
     "no-console": "warn",
     "no-debugger": "error"
   },
-  "ignorePatterns": ["dist", "node_modules", "*.config.ts", ".vitepress"]
+  "ignorePatterns": ["dist", "node_modules", "*.config.ts", ".vitepress", "**/*.d.ts"]
 }
