@@ -2,8 +2,8 @@ node_modules/
 dist/
 .turbo/
 .vite/
-.vitepress/cache/
-.vitepress/dist/
+**/.vitepress/cache/
+**/.vitepress/dist/
 *.log
 .DS_Store
 .env
