@@ -1,0 +1,17 @@
+{
+  "name": "@draggable-table/theme",
+  "version": "0.0.0",
+  "description": "Default CSS theme for @draggable-table.",
+  "sideEffects": ["**/*.css"],
+  "main": "./src/index.css",
+  "exports": {
+    ".": "./src/index.css",
+    "./index.css": "./src/index.css"
+  },
+  "files": ["src", "README.md"],
+  "scripts": {
+    "build": "echo 'CSS shipped as-is' && exit 0",
+    "typecheck": "echo 'no ts' && exit 0",
+    "test": "echo 'no tests' && exit 0"
+  }
+}
